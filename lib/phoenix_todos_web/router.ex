@@ -21,9 +21,10 @@ defmodule PhoenixTodosWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PhoenixTodosWeb do
-  #   pipe_through :api
-  # end
+   scope "/api", PhoenixTodosWeb do
+     pipe_through :api
+     resources "/todos", TodoController, except: [:new, :edit]
+   end
 
   # Enables LiveDashboard only for development
   #
