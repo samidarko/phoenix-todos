@@ -6,8 +6,8 @@ defmodule PhoenixTodosWeb.TodoController do
 
   action_fallback PhoenixTodosWeb.FallbackController
 
-  def index(conn, _params) do
-    todos = Organize.list_todos()
+  def index(conn, params) do
+    todos = Organize.list_todos(is_completed: params["is_completed"])
     render(conn, "index.json", todos: todos)
   end
 

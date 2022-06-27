@@ -17,9 +17,25 @@ defmodule PhoenixTodos.Organize do
       [%Todo{}, ...]
 
   """
-  def list_todos do
-    Repo.all(Todo)
+  def list_todos(opts \\ []) do
+    Todo
+    |> todos_query_with_is_completed(opts[:is_completed])
+    |> Repo.all()
   end
+
+  defp todos_query_with_is_completed(query, is_completed) when is_boolean(is_completed) do
+    from(q in query, where: q.is_completed == ^is_completed)
+  end
+
+  defp todos_query_with_is_completed(query, "true") do
+    todos_query_with_is_completed(query, true)
+  end
+
+  defp todos_query_with_is_completed(query, "false") do
+    todos_query_with_is_completed(query, false)
+  end
+
+  defp todos_query_with_is_completed(query, _), do: query
 
   @doc """
   Gets a single todo.
