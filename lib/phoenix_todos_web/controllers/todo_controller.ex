@@ -40,4 +40,12 @@ defmodule PhoenixTodosWeb.TodoController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def toggle(conn, %{"todo_id" => id}) do
+    todo = Organize.get_todo!(id)
+
+    with {:ok, %Todo{} = todo} <- Organize.toggle_todo(todo) do
+      render(conn, "show.json", todo: todo)
+    end
+  end
 end

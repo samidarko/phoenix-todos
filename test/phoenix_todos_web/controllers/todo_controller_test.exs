@@ -35,7 +35,7 @@ defmodule PhoenixTodosWeb.TodoControllerTest do
 
       assert %{
                "id" => ^id,
-               "is_completed" => true,
+               "is_completed" => false,
                "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
@@ -78,6 +78,24 @@ defmodule PhoenixTodosWeb.TodoControllerTest do
       assert_error_sent 404, fn ->
         get(conn, Routes.todo_path(conn, :show, todo))
       end
+    end
+  end
+
+  describe "toggle todo" do
+    setup [:create_todo]
+
+    test "renders toggled todo", %{
+      conn: conn,
+      todo: %Todo{id: id, is_completed: is_completed} = todo
+    } do
+      conn = put(conn, Routes.todo_todo_path(conn, :toggle, todo))
+      toggled_is_completed = not is_completed
+
+      assert %{
+               "id" => ^id,
+               "is_completed" => ^toggled_is_completed,
+               "name" => "some name"
+             } = json_response(conn, 200)["data"]
     end
   end
 

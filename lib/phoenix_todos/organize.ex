@@ -101,4 +101,10 @@ defmodule PhoenixTodos.Organize do
   def change_todo(%Todo{} = todo, attrs \\ %{}) do
     Todo.changeset(todo, attrs)
   end
+
+  def toggle_todo(%Todo{is_completed: is_completed} = todo) do
+    todo
+    |> Todo.toggle_changeset(%{is_completed: not is_completed})
+    |> Repo.update()
+  end
 end

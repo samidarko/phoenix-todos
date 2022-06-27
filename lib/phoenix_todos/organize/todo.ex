@@ -14,7 +14,14 @@ defmodule PhoenixTodos.Organize.Todo do
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:name, :is_completed])
-    |> validate_required([:name, :is_completed])
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+  end
+
+  @doc false
+  def toggle_changeset(todo, attrs) do
+    todo
+    |> cast(attrs, [:is_completed])
+    |> validate_required([:is_completed])
   end
 end

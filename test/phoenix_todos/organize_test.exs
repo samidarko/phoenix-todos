@@ -15,6 +15,12 @@ defmodule PhoenixTodos.OrganizeTest do
       assert Organize.list_todos() == [todo]
     end
 
+    test "toggle_todo/1 returns the todo is_completed toggled" do
+      todo = todo_fixture()
+      assert {:ok, %Todo{} = toggled_todo} = Organize.toggle_todo(todo)
+      assert toggled_todo.is_completed == not todo.is_completed
+    end
+
     test "get_todo!/1 returns the todo with given id" do
       todo = todo_fixture()
       assert Organize.get_todo!(todo.id) == todo
@@ -24,7 +30,7 @@ defmodule PhoenixTodos.OrganizeTest do
       valid_attrs = %{is_completed: true, name: "some name"}
 
       assert {:ok, %Todo{} = todo} = Organize.create_todo(valid_attrs)
-      assert todo.is_completed == true
+      assert todo.is_completed == false
       assert todo.name == "some name"
     end
 
